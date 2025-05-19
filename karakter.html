@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IRON MAN — Karakter Favorit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      overflow-x: hidden;
+      color: #fff;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.85);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 99;
+      backdrop-filter: blur(8px);
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #00ffff;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+    .navbar a:hover {
+      color: #ff0000;
+      transform: scale(1.2);
+      text-shadow: 0 0 8px #ff0000;
+    }
+    .hero {
+      margin-top: 120px;
+      text-align: center;
+      animation: fadeInScale 2s ease forwards;
+    }
+    .ironman-img {
+      width: 300px;
+      animation: float 4s ease-in-out infinite, glow 2s infinite alternate;
+      transition: transform 0.5s;
+    }
+    .ironman-img:hover {
+      transform: scale(1.1) rotate(2deg);
+    }
+    h1 {
+      font-size: 4rem;
+      margin-top: 20px;
+      color: #ff3c00;
+      text-shadow: 0 0 10px #ff3c00, 0 0 20px #ff3c00;
+    }
+    .tagline {
+      font-size: 1.5rem;
+      color: #00ffff;
+      margin-bottom: 30px;
+    }
+    .bio {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+      animation: fadeInUp 1.5s ease-out;
+    }
+    .bio h2 {
+      color: #00ffff;
+      margin-bottom: 10px;
+    }
+    .bio ul {
+      padding-left: 20px;
+      list-style: square;
+    }
+    .bio li {
+      margin-bottom: 10px;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes glow {
+      from { filter: drop-shadow(0 0 5px #ff0000); }
+      to { filter: drop-shadow(0 0 25px #ff0000); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="background"></canvas>
+  <nav class="navbar">
+    <a href="index.html">Profil Saya</a>
+    <a href="karakter.html">Iron Man</a>
+  </nav>
+
+  <section class="hero">
+    <img src="ironman.jpg" alt="Iron Man" class="ironman-img" />
+    <h1>Iron Man (Tony Stark)</h1>
+    <p class="tagline">Jenius, Miliarder, Pahlawan</p>
+  </section>
+
+  <section class="bio">
+    <h2>Alasan Memilih Iron Man</h2>
+    <ul>
+      <li>Memiliki kecerdasan luar biasa dan menciptakan teknologi canggih.</li>
+      <li>Memiliki rasa tanggung jawab tinggi untuk melindungi dunia.</li>
+      <li>Mengorbankan dirinya demi menyelamatkan alam semesta (Avengers: Endgame).</li>
+    </ul>
+    <h2>Biografi Singkat</h2>
+    <ul>
+      <li>Nama lengkap: Anthony Edward Stark</li>
+      <li>Profesi: Pengusaha, Ilmuwan, dan Superhero</li>
+      <li>Perusahaan: Stark Industries</li>
+      <li>Debut: Film Iron Man (2008), diperankan oleh Robert Downey Jr.</li>
+      <li>Ciri khas: Armor berteknologi tinggi dan kepribadian karismatik</li>
+    </ul>
+  </section>
+
+  <script>
+    const canvas = document.getElementById("background");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const particles = [];
+    for (let i = 0; i < 100; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2 + 1,
+        speedX: Math.random() * 0.5 - 0.25,
+        speedY: Math.random() * 0.5 - 0.25,
+        color: Math.random() > 0.5 ? '#ff4500' : '#ff0000'
+      });
+    }
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>

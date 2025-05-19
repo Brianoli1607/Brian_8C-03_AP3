@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profil Brian</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(135deg, #0a1e3a, #1e3d59);
+      color: #fff;
+      overflow-x: hidden;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+    .navbar {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      padding: 20px;
+      background: rgba(0, 0, 50, 0.85);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 99;
+      backdrop-filter: blur(8px);
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #00ffff;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+    .navbar a:hover {
+      color: #66ccff;
+      transform: scale(1.1);
+    }
+    .hero {
+      margin-top: 120px;
+      text-align: center;
+      animation: fadeInScale 2s ease forwards;
+    }
+    .profile-img {
+      width: 250px;
+      border-radius: 20px;
+      animation: float 4s ease-in-out infinite;
+    }
+    h1 {
+      font-size: 3.5rem;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+      margin-top: 20px;
+    }
+    .tagline {
+      font-size: 1.3rem;
+      color: #ffffff;
+      margin-bottom: 30px;
+    }
+    .bio {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+      animation: fadeInUp 1.5s ease-out;
+    }
+    .bio h2 {
+      color: #66ccff;
+      margin-bottom: 10px;
+    }
+    .bio ul {
+      padding-left: 20px;
+      list-style: decimal;
+    }
+    .bio li {
+      margin-bottom: 10px;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="background"></canvas>
+  <nav class="navbar">
+    <a href="index.html" class="active">Profil Saya</a>
+    <a href="karakter.html">Iron Man</a>
+  </nav>
+
+  <section class="hero">
+    <img src="screenshot.png" alt="Foto Brian" class="profile-img" />
+    <h1>Brian</h1>
+    <p class="tagline">Pelajar kreatif, penyuka biologi dan teknologi</p>
+  </section>
+
+  <section class="bio">
+    <h2>Biografi Saya</h2>
+    <ul>
+      <li>Nama: Brian</li>
+      <li>Umur: 13 tahun (16 July 2011)</li>
+      <li>Hobi: Belajar, bermain Valorant, dan Bermain Basket</li>
+      <li>Cita-cita: Menjadi Entrepenur yang Baik</li>
+    </ul>
+  </section>
+
+  <script>
+    const canvas = document.getElementById("background");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const particles = [];
+    for (let i = 0; i < 100; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 2 + 1,
+        speedX: Math.random() * 0.5 - 0.25,
+        speedY: Math.random() * 0.5 - 0.25
+      });
+    }
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = '#00ffff';
+        ctx.fill();
+        p.x += p.speedX;
+        p.y += p.speedY;
+        if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+</html>
+
